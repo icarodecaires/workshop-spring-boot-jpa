@@ -1,46 +1,42 @@
 package com.projetospringboot.springbootjpa.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.Transient;
 
 @Entity
-@Table(name = "tb_user")
-public class User  implements Serializable{
+@Table(name = "tb_product")
+public class Product implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) //Define que o atribudo no banco ter auto incremento
 	private Long id;
 	private String name;
-	private String email;
-	private String phone;
-	private String password;
+	private String description;
+	private Double price;
+	private String imgUrl;
 	
-	//Indica para o JPa a associação de um para um para muitos
-	@OneToMany(mappedBy =  "client")
-	@JsonIgnore //como é uma associação de mão dupla é necessário ignorar um dos lados para não entrar em loop
-	private List<Order> orders = new ArrayList<>();
+	@Transient
+	private Set<Category> categories = new HashSet<>();
 	
-	public User() {
+	public Product() {
 		
 	}
-	
-	public User(Long id, String name, String email, String phone, String password) {
+
+	public Product(Long id, String name, String description, Double price, String imgUrl) {
 		this.id = id;
 		this.name = name;
-		this.email = email;
-		this.phone = phone;
-		this.password = password;
+		this.description = description;
+		this.price = price;
+		this.imgUrl = imgUrl;
 	}
 
 	public Long getId() {
@@ -59,35 +55,34 @@ public class User  implements Serializable{
 		this.name = name;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
-	public String getPhone() {
-		return phone;
+	public Double getPrice() {
+		return price;
 	}
 
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setPrice(Double price) {
+		this.price = price;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getImgUrl() {
+		return imgUrl;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
 	}
-	
-	public List<Order> getOrders() {
-		return orders;
+
+	public Set<Category> getCategories() {
+		return categories;
 	}
-	
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -104,7 +99,7 @@ public class User  implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		User other = (User) obj;
+		Product other = (Product) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -113,7 +108,5 @@ public class User  implements Serializable{
 		return true;
 	}
 
-	
-	
 	
 }
